@@ -32,7 +32,7 @@ peka_vm_get()
 }
 ```
 
-Jeśli parametr wejściowy jakiejś funkcji jest "wzorcem", należy go rozumieć jak wyszukiwanie z glob-gwiazdkami po obu stronach wzorca.
+Jeśli parametr wejściowy jakiejś funkcji jest "wzorcem", należy go rozumieć jak wyszukiwanie z glob-gwiazdkami po obu stronach wzorca. Wielkość liter jest ignorowana. Powinno być to widoczne w przykładach.
 
 # Słowniczek
 * *bollard* - coś, co najwygodniej chyba wytłumaczyć jako "słupek". Jest to fizyczne miejsce, w którym zatrzymują się pojazdy. Na jeden przystanek może przypadać więcej niż jeden bollard : jeden dla pojazdów jadących w jednym kierunku, a drugi - w drugim. Dochodzą do tego jeszcze osobne punkty przystankowe dla linii nocnych. Przystanek AWF ma na przykład aż siedem takich punktów : dwa tramwajowe na Królowej Jadwigi, jeden tramwajowy na Garbarach, i autobusowe rozrzucone w różnych miejscach.
@@ -42,10 +42,12 @@ Jeśli parametr wejściowy jakiejś funkcji jest "wzorcem", należy go rozumieć
 Pobiera listę przystanków o nazwie pasującej do zadanego wzorca.
 ### Wejście
 * `pattern` - wzorzec, według którego serwer ma szukać przystanku.
+
 ### Wyjście
 Tablica zawierająca obiekty, w których mamy :
 * `symbol` - identyfikator przystanku używany do późniejszych zapytań
 * `name` - pełna nazwa przystanku.
+
 ### Przykład
 ```
 peka_vm_get getStopPoints '{"pattern":"Pół"}'
@@ -84,6 +86,7 @@ Obiekt `bollards`, będący tablicą obiektów `bollard` (opisanym w `getTimes`)
 * `lineName` : nazwa linii odjeżdżającej z danego punktu,
 * `direction` : kierunek tejże linii.
 
+### Przykład
 ```
 peka_vm_get getBollardsByStopPoint '{"name":"Termy Maltańskie"}'
 ```
@@ -135,6 +138,7 @@ Zwraca listę bollardów znajdujących się przy zadanej ulicy.
 ### Wyjście
 To samo, co przy `getBollardsByStopPoint`.
 
+### Przykład
 ```
 peka_vm_get getBollardsByStreet '{"name":"Lutycka"}'
 ```
@@ -251,7 +255,8 @@ Obiekt `directions`, będący tablicą obiektów zawierających w sobie obiekt `
 
 `bollards` to natomiast tablica obiektów zawierających wszystkie bollardy, przy których zatrzymuje się dana wariacja linii. Każdy z tych obiektów zawiera to samo, co `bollard` znajdujący się w wyniku `getBollardsByStopPoint`, ale z dodanym `orderNo`, czyli - chyba - kolejny numer przystanku dla linii. Atrybut ten pewnie być użyty do zrekonstruowania trasy danej linii i jej wariacji, ale nie udało mi się znaleźć na to jakiegoś algorytmu.
 
-Przykład pominięty ze względu na zbyt duży rozmiar.
+### Przykład
+Pominięty ze względu na zbyt duży rozmiar.
 
 ## `getLines`
 Pobiera linie komunikacji pasujące do zadanego wzorca.
@@ -261,6 +266,8 @@ Pobiera linie komunikacji pasujące do zadanego wzorca.
 
 ### Wyjście
 Tablica zawierająca obiekty, których `name` zawiera pełną nazwę linii.
+
+### Przykład
 ```
 peka_vm_get getLines '{"pattern":"16"}'
 ```
@@ -287,6 +294,8 @@ Pobiera listę ulic razem z ich identyfikatorami, pasującymi do zadanego wzorca
 
 ### Wyjście
 Tablica obiektów zawierających `id` ulicy do użycia w późniejszych zapytaniach, oraz `name`, czyli ich pełną nazwę.
+
+### Przykład
 ```
 peka_vm_get getStreets '{"pattern":"Gło"}'
 ```
@@ -358,6 +367,7 @@ Oraz obiekt `times` będący tablicą obiektów zawierających :
 * `departure` - szacowany czas odjazdu podany jako `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`. **Nie** jest to ISO 8601, ponieważ końcowe `Z` sugerowałoby wtedy, że jest on podany w UTC. Tak się jednak nie dzieje : godzina podawana jest w czasie lokalnym , czyli CET albo CEST.
 * `line` - linia, którą obsługuje pojazd.
 
+### Przykład
 ```
 peka_vm_get getTimes '{"symbol":"AWF03"}'
 ```
@@ -401,6 +411,7 @@ Pobiera czasy przyjazdu na wszystkich bollardach przypisanych do danego przystan
 ### Wyjście
 Obiekt `bollardsWithTimes`, będący tablicą struktur opisanych w `getTimes`.
 
+### Przykład
 ```
 peka_vm_get getTimesForAllBollards '{"name":"Katowicka"}'
 ```
@@ -467,6 +478,8 @@ peka_vm_get getTimesForAllBollards '{"name":"Katowicka"}'
 
 ## `getServerTime`
 Pobiera aktualny czas na serwerze jako coś, co wygląda na liczbę milisekund od 1. stycznia 1970. Na wejściu pusty obiekt.
+
+### Przykład
 ```
 peka_vm_get getServerTime '{}'
 ```
@@ -482,6 +495,8 @@ Zwraca wiadomości zapisane przez administrację serwisu, skojarzone z danym bol
 
 ### Wyjście
 Najpewniej tablica wiadomości, może zapakowana w jakiś obiekt.
+
+### Przykład
 ```
 peka_vm_get findMessagesForBollard '{"symbol":"RJEZ04"}'
 ```
