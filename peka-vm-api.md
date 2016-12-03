@@ -350,7 +350,7 @@ peka_vm_get getStreets '{"pattern":"Gło"}'
 Pobiera szacowane czasy przyjazdu kolejnych pojazdów na zadany bollard.
 
 ### Wejście
-* `symbol` : identyfikator bollarda, dla którego pobrać listę przyjazdów. Musi to być identyfikator pobrany z jednej z funkcji `getBollards`, w przeciwnym razie wywołanie kończy się błędem.
+* `symbol` : `tag` bollarda (niestety nie `symbol`, jak mogłoby się wydawać) wyciągnięty przez którąś z wariacji funkcji `getBollards`, dla którego pobrać listę przyjazdów.
 
 ### Wyjście
 Dwa obiekty : `bollard` opisujący bollarda i zawierający :
