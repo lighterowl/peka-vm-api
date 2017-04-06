@@ -488,18 +488,37 @@ peka_vm_get getServerTime '{}'
 ```
 
 ## `findMessagesForBollard`
-Zwraca wiadomości zapisane przez administrację serwisu, skojarzone z danym bollardem. Z reguły wykorzystywane do zakomunikowania czasowych zmian w rozkładzie. Niestety nie udało mi się znaleźć żadnego przystanku, na którym byłyby one aktywne, więc nie znam formatu wyjścia : dla wszystkich dostaję pustą tablicę.
+Zwraca wiadomości zapisane przez administrację serwisu, skojarzone z danym bollardem. Z reguły wykorzystywane do zakomunikowania czasowych zmian w rozkładzie.
 
 ### Wejście
 * `symbol` : identyfikator bollarda
 
 ### Wyjście
-Najpewniej tablica wiadomości, może zapakowana w jakiś obiekt.
+Tablica obiektów zawierających następujące pola :
+* `content` : wiadomość, która ma zostać wyświetlona, jako HTML,
+* `startHour`, `stopsGroups` i `endHour` : przeznaczenie nieznane, nie są używane w ogóle przez kod renderujący oficjalną stronę,
+* `startDate` : data oznaczająca początek okresu, kiedy komunikat ma zacząć zostać wyświetlany,
+* `endDate` : j.w., ale oznaczająca koniec tego okresu.
+
+Format daty jest taki sam jak ten używany przez pole `departure` w `getTimes`.
 
 ### Przykład
 ```
 peka_vm_get findMessagesForBollard '{"symbol":"RJEZ04"}'
 ```
 ```javascript
-{"success":[]}
+{  
+   "success":[  
+      {  
+         "content":"INFO: Od 9 kwietnia, w związku z remontem torowiska na ul. 28 Czerwca 1956 r., zmianie ulegną trasy linii tramwajowych nr 2, 9, 10 i 11. Uruchomiona zostanie komunikacja zastępcza. Szczegóły na stronie <a href=\"http://tiny.pl/g5dss\">www.ztm.poznan.pl<\/a>.",
+         "startDate":"2017-04-06T01:00:00.000Z",
+         "stopsGroups":[  
+
+         ],
+         "startHour":60,
+         "endDate":"2017-04-11T23:00:00.000Z",
+         "endHour":1380
+      }
+   ]
+}
 ```
