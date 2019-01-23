@@ -4,7 +4,7 @@ Autor tego dokumentu nie jest w jakikolwiek sposób powiązany z ZTM, a informac
 
 # Zapytanie
 
-Zapytanie wykonywane jest przez HTTP do hosta www.peka.poznan.pl i zasobu `/vm/method.vm` , z parametrem `ts` przekazywanym przez `GET` i zawierającym wynik javascriptowej `new Date().getTime()`. `Content-Type` zapytania musi być ustawione na `application/x-www-form-urlencoded; charset=UTF-8`, w przeciwnym razie znaki spoza standardowego zakresu ASCII nie będą działały poprawnie.
+Zapytanie wykonywane jest przez HTTP do hosta www.peka.poznan.pl i zasobu `/vm/method.vm`. Implementacja dodaje jeszcze parametr `ts` przekazywany przez `GET` i zawierający wynik javascriptowej `new Date().getTime()`, chociaż nie wygląda na to, żeby był on potrzebny i w poniższych przykładach jest pominięty. `Content-Type` zapytania musi być ustawione na `application/x-www-form-urlencoded; charset=UTF-8`, w przeciwnym razie znaki spoza standardowego zakresu ASCII nie będą działały poprawnie.
 
 Wszystkie znaki kodowane są jako UTF-8.
 
@@ -21,12 +21,12 @@ Podanie niepoprawnych parametrów do funkcji kończy się zwróceniem obiektu JS
 
 Poprawne wywołanie funkcji kończy się przesłaniem obiektu zawierającego w sobie obiekt `success`, którego znaczenie jest uzależnione od wywołanej funkcji. Obiekt ten jest pomijany w tym dokumencie w opisie wyjścia danej funkcji.
 
-W przykładach wykorzystywana jest funkcja `peka_vm_get`, której definicja w Bashu wygląda następująco :
+W przykładach wykorzystywana jest funkcja `peka_vm_get`, której definicja w Bashu z curlem wygląda następująco :
 ```bash
 peka_vm_get()
 {
   curl -H 'Content-Type:application/x-www-form-urlencoded; charset=UTF-8' \
-    http://www.peka.poznan.pl/vm/method.vm?ts=$(($(date +'%s') * 1000)) \
+    http://www.peka.poznan.pl/vm/method.vm \
     -d "method=$1" \
     -d "p0=$2"
 }
