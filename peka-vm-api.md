@@ -19,7 +19,7 @@ Podanie niepoprawnych parametrów do funkcji kończy się zwróceniem obiektu JS
 }
 ```
 
-Poprawne wywołanie funkcji kończy się przesłaniem obiektu zawierającego w sobie obiekt `success`, którego znaczenie jest uzależnione od wywołanej funkcji. Obiekt ten jest pomijany w tym dokumencie w opisie wyjścia danej funkcji.
+Poprawne wywołanie funkcji kończy się przesłaniem obiektu zawierającego w sobie obiekt `success`, którego znaczenie jest uzależnione od wywołanej funkcji.
 
 W przykładach wykorzystywana jest funkcja `peka_vm_get`, której definicja w Bashu z curlem wygląda następująco :
 ```bash
