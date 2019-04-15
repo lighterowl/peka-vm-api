@@ -361,41 +361,89 @@ Two objects : `bollard` describing the bollard and containing :
 
 And a `times` object being an array of objects containing :
 * `realTime` - whether the arrival time has been estimated based on the device's location,
+* `driversTicketMachine` - the name suggests that the vehicle has a ticket machine at the driver's compartment (or the driver is also a ticket machine), however I'm not aware of any vehicles like these in Poznań. As such, I have not seen any responses where this would be set to `true`,
 * `minutes` - how many minutes left until the vehicle's arrival,
 * `direction` - the route's terminus,
+* `lowFloorBus` - whether the bus has a lowered floor,
 * `onStopPoint` - whether the vehicle is currently at the bollard,
 * `departure` - the estimated time of departure given as `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`. This is **not** ISO 8601 despite the similarity, since if it were, the trailing `Z` would suggest that the time is in UTC. This is not the case : the time is given in local time, which is either CET or CEST,
-* `line` - line served by the vehicle.
+* `line` - line served by the vehicle,
+* `lowEntranceBus` - whether the bus has a low-floor entrance in its middle part,
+* `ticketMachine` - whether there's a ticket machine in the vehicle.
 
 ### Example
 ```
-peka_vm_get getTimes '{"symbol":"AWF03"}'
+peka_vm_get getTimes '{"symbol":"IPNZ02"}'
 ```
 ```javascript
-{  
-   "success":{  
-      "bollard":{  
-         "symbol":"AWF03",
-         "tag":"AWF21",
-         "name":"AWF",
-         "mainBollard":false
+{
+   "success": {
+      "bollard": {
+         "symbol": "IPNZ02",
+         "tag": "IPNZ22",
+         "name": "IPN",
+         "mainBollard": false
       },
-      "times":[  
-         {  
-            "realTime":true,
-            "minutes":0,
-            "direction":"Os. Orła Białego",
-            "onStopPoint":true,
-            "departure":"2016-11-25T21:48:00.000Z",
-            "line":"74"
+      "times": [
+         {
+            "realTime": true,
+            "driversTicketMachine": false,
+            "minutes": 4,
+            "direction": "Garbary",
+            "lowFloorBus": true,
+            "onStopPoint": false,
+            "departure": "2019-04-15T18:26:00.000Z",
+            "line": "176",
+            "lowEntranceBus": false,
+            "ticketMachine": false
          },
-         {  
-            "realTime":true,
-            "minutes":20,
-            "direction":"Os. Orła Białego",
-            "onStopPoint":false,
-            "departure":"2016-11-25T22:08:00.000Z",
-            "line":"74"
+         {
+            "realTime": true,
+            "driversTicketMachine": false,
+            "minutes": 7,
+            "direction": "Os. Wichrowe Wzgórze",
+            "lowFloorBus": true,
+            "onStopPoint": false,
+            "departure": "2019-04-15T18:29:00.000Z",
+            "line": "171",
+            "lowEntranceBus": false,
+            "ticketMachine": false
+         }
+      ]
+   }
+}
+```
+
+Keep in mind that not all members always appear in the message, as it depends on the type of the vehicle. For example, trams don't seem to have associated data about having a lowered floor :
+
+```
+peka_vm_get getTimes '{"symbol":"DEEC42"}'
+```
+```javascript
+{
+   "success": {
+      "bollard": {
+         "symbol": "DEEC42",
+         "tag": "DEEC02",
+         "name": "Dębiec",
+         "mainBollard": false
+      },
+      "times": [
+         {
+            "realTime": false,
+            "minutes": 3,
+            "direction": "Głogowska/Hetmańska",
+            "onStopPoint": false,
+            "departure": "2019-04-15T18:33:00.000Z",
+            "line": "11"
+         },
+         {
+            "realTime": false,
+            "minutes": 9,
+            "direction": "Ogrody",
+            "onStopPoint": false,
+            "departure": "2019-04-15T18:39:00.000Z",
+            "line": "2"
          }
       ]
    }

@@ -361,41 +361,89 @@ Dwa obiekty : `bollard` opisujący bollarda i zawierający :
 
 Oraz obiekt `times` będący tablicą obiektów zawierających :
 * `realTime` - czy przyjazd jest podany w oparciu o położenie pojazdu na podstawie odczytu jego lokalizacji,
+* `driversTicketMachine` - nazwa sugeruje, że pojazd posiada automat do biletów u kierowcy, ale w Poznaniu z tego co mi wiadomo takich nie ma. Nie widziałem jeszcze odpowiedzi, gdzie to byłoby `true`,
 * `minutes` - ile minut zostało do przyjazdu,
 * `direction` - kierunek trasy,
+* `lowFloorBus` - czy autobus jest niskopodłogowy,
 * `onStopPoint` - czy pojazd aktualnie znajduje się na bollardzie,
-* `departure` - szacowany czas odjazdu podany jako `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`. **Nie** jest to ISO 8601, ponieważ końcowe `Z` sugerowałoby wtedy, że jest on podany w UTC. Tak się jednak nie dzieje : godzina podawana jest w czasie lokalnym , czyli CET albo CEST.
-* `line` - linia, którą obsługuje pojazd.
+* `departure` - szacowany czas odjazdu podany jako `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`. **Nie** jest to ISO 8601, ponieważ końcowe `Z` sugerowałoby wtedy, że jest on podany w UTC. Tak się jednak nie dzieje : godzina podawana jest w czasie lokalnym , czyli CET albo CEST,
+* `line` - linia, którą obsługuje pojazd,
+* `lowEntranceBus` - czy autobus posiada niskopodłogowe wejście w swojej środkowej części,
+* `ticketMachine` - czy w pojeździe znajduje się automat biletowy.
 
 ### Przykład
 ```
-peka_vm_get getTimes '{"symbol":"AWF03"}'
+peka_vm_get getTimes '{"symbol":"IPNZ02"}'
 ```
 ```javascript
-{  
-   "success":{  
-      "bollard":{  
-         "symbol":"AWF03",
-         "tag":"AWF21",
-         "name":"AWF",
-         "mainBollard":false
+{
+   "success": {
+      "bollard": {
+         "symbol": "IPNZ02",
+         "tag": "IPNZ22",
+         "name": "IPN",
+         "mainBollard": false
       },
-      "times":[  
-         {  
-            "realTime":true,
-            "minutes":0,
-            "direction":"Os. Orła Białego",
-            "onStopPoint":true,
-            "departure":"2016-11-25T21:48:00.000Z",
-            "line":"74"
+      "times": [
+         {
+            "realTime": true,
+            "driversTicketMachine": false,
+            "minutes": 4,
+            "direction": "Garbary",
+            "lowFloorBus": true,
+            "onStopPoint": false,
+            "departure": "2019-04-15T18:26:00.000Z",
+            "line": "176",
+            "lowEntranceBus": false,
+            "ticketMachine": false
          },
-         {  
-            "realTime":true,
-            "minutes":20,
-            "direction":"Os. Orła Białego",
-            "onStopPoint":false,
-            "departure":"2016-11-25T22:08:00.000Z",
-            "line":"74"
+         {
+            "realTime": true,
+            "driversTicketMachine": false,
+            "minutes": 7,
+            "direction": "Os. Wichrowe Wzgórze",
+            "lowFloorBus": true,
+            "onStopPoint": false,
+            "departure": "2019-04-15T18:29:00.000Z",
+            "line": "171",
+            "lowEntranceBus": false,
+            "ticketMachine": false
+         }
+      ]
+   }
+}
+```
+
+Nie wszystkie pola muszą się zawsze pojawiać w odpowiedzi - zależy to od typu pojazdu. Tramwaje na przykład mogą nie mieć atrybutów dotyczących tego, czy są niskopodłogowe :
+
+```
+peka_vm_get getTimes '{"symbol":"DEEC42"}'
+```
+```javascript
+{
+   "success": {
+      "bollard": {
+         "symbol": "DEEC42",
+         "tag": "DEEC02",
+         "name": "Dębiec",
+         "mainBollard": false
+      },
+      "times": [
+         {
+            "realTime": false,
+            "minutes": 3,
+            "direction": "Głogowska/Hetmańska",
+            "onStopPoint": false,
+            "departure": "2019-04-15T18:33:00.000Z",
+            "line": "11"
+         },
+         {
+            "realTime": false,
+            "minutes": 9,
+            "direction": "Ogrody",
+            "onStopPoint": false,
+            "departure": "2019-04-15T18:39:00.000Z",
+            "line": "2"
          }
       ]
    }
